@@ -1,5 +1,4 @@
-// const INPUT: &str = include_str!("input.txt");
-const INPUT: &str = "";
+const INPUT: &str = include_str!("input.txt");
 
 #[derive(Debug, Clone, Copy)]
 enum Hand {
