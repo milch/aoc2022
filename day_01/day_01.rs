@@ -1,4 +1,4 @@
-const INPUT: &str = include_str!("../input.txt");
+const INPUT: &str = include_str!("input.txt");
 
 fn convert_input_to_array<'a>(input: &str) -> Vec<Vec<i32>> {
     input
