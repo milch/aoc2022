@@ -1,3 +1,5 @@
+use std::collections::HashSet;
+
 const INPUT: &str = include_str!("input.txt");
 
 fn split_compartments(input: &str) -> Vec<[&str; 2]> {
@@ -35,14 +37,49 @@ fn priority_sum(input: &str) -> u32 {
         .fold(0, |sum, char| sum + char_value(char))
 }
 
+fn split_threes(input: &str) -> Vec<Vec<&str>> {
+    let mut result: Vec<Vec<&str>> = vec![];
+
+    let mut idx = 0;
+    let lines_vec = input.lines().collect::<Vec<&str>>();
+    while idx < lines_vec.len() {
+        let k = &lines_vec[idx..idx + 3];
+        result.push(Vec::from(k));
+        idx += 3;
+    }
+
+    result
+}
+
+fn find_common_letter(parts: &Vec<&str>) -> char {
+    let sets: Vec<HashSet<char>> = parts
+        .iter()
+        .map(|str| HashSet::from_iter(str.chars()))
+        .collect();
+
+    let intersection = sets.iter().skip(1).fold(sets[0].clone(), |acc, hs| {
+        acc.intersection(hs).cloned().collect()
+    });
+
+    intersection.iter().last().unwrap().clone()
+}
+
 fn main() {
     let sum = priority_sum(INPUT);
-    println!("Sum: {sum}")
+    println!("Sum: {sum}");
+
+    let chars: u32 = split_threes(INPUT)
+        .iter()
+        .map(|parts| char_value(find_common_letter(parts)))
+        .sum();
+
+    println!("Chars: {chars:?}")
 }
 
 #[cfg(test)]
 mod test {
     use super::*;
+    use pretty_assertions::assert_eq;
 
     const SAMPLE: &str = "vJrwpWtwJgWrhcsFMMfFFhFp
 jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL
@@ -84,5 +121,44 @@ CrZsJsPPZsGzwwsLwLmpwMDw";
     fn test_char_value() {
         assert_eq!(char_value('a'), 1);
         assert_eq!(char_value('A'), 27);
+    }
+
+    #[test]
+    fn test_split_threes() {
+        assert_eq!(
+            split_threes(SAMPLE),
+            vec![
+                [
+                    "vJrwpWtwJgWrhcsFMMfFFhFp",
+                    "jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL",
+                    "PmmdzqPrVvPwwTWBwg"
+                ],
+                [
+                    "wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn",
+                    "ttgJtRGJQctTZtZT",
+                    "CrZsJsPPZsGzwwsLwLmpwMDw"
+                ]
+            ]
+        );
+    }
+
+    #[test]
+    fn test_find_common_letter() {
+        assert_eq!(
+            find_common_letter(&vec![
+                "vJrwpWtwJgWrhcsFMMfFFhFp",
+                "jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL",
+                "PmmdzqPrVvPwwTWBwg"
+            ]),
+            'r'
+        );
+        assert_eq!(
+            find_common_letter(&vec![
+                "wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn",
+                "ttgJtRGJQctTZtZT",
+                "CrZsJsPPZsGzwwsLwLmpwMDw"
+            ]),
+            'Z'
+        );
     }
 }
