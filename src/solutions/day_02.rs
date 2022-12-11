@@ -1,4 +1,4 @@
-const INPUT: &str = include_str!("input.txt");
+const INPUT: &str = include_str!("day_02.txt");
 
 #[derive(Debug, Clone, Copy)]
 enum Hand {
@@ -122,7 +122,7 @@ fn find_hands_to_reach_outcome(input: Vec<(Hand, Outcome)>) -> Vec<Vec<Hand>> {
         .collect()
 }
 
-fn main() {
+pub fn print_solution() {
     let hands_map = convert_to_hands(INPUT);
     let total_score: u32 = score_hands(hands_map);
     println!("Total score first part: {:?}", total_score);

@@ -1,6 +1,6 @@
 use std::collections::HashSet;
 
-const INPUT: &str = include_str!("input.txt");
+const INPUT: &str = include_str!("day_03.txt");
 
 fn split_compartments(input: &str) -> Vec<[&str; 2]> {
     input
@@ -64,7 +64,7 @@ fn find_common_letter(parts: &Vec<&str>) -> char {
     intersection.iter().last().unwrap().clone()
 }
 
-fn main() {
+pub fn print_solution() {
     let sum = priority_sum(INPUT);
     println!("Sum: {sum}");
 

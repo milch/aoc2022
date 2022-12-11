@@ -1,4 +1,4 @@
-const INPUT: &str = include_str!("input.txt");
+const INPUT: &str = include_str!("day_01.txt");
 
 fn convert_input_to_array<'a>(input: &str) -> Vec<Vec<i32>> {
     input
@@ -15,8 +15,7 @@ fn convert_input_to_array<'a>(input: &str) -> Vec<Vec<i32>> {
         })
 }
 
-fn main() {
-    // let mut max_n = [0, -1, -2];
+pub fn print_solution() {
     let result = convert_input_to_array(INPUT);
     let mut sums: Vec<i32> = result
         .iter()

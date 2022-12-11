@@ -3,33 +3,10 @@ name = "advent_of_code_2022"
 version = "0.1.0"
 edition = "2021"
 
-[[bin]]
-name = "day_01"
-path = "day_01/day_01.rs"
-
-[[bin]]
-name = "day_02"
-path = "day_02/day_02.rs"
-
-[[bin]]
-name = "day_03"
-path = "day_03/day_03.rs"
-
-[[bin]]
-name = "day_04"
-path = "day_04/day_04.rs"
-
-[[bin]]
-name = "day_05"
-path = "day_05/day_05.rs"
-
-[[bin]]
-name = "day_06"
-path = "day_06/day_06.rs"
-
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+clap = { version = "4.0.29", features = ["derive"] }
 
 [dev-dependencies]
 pretty_assertions = "1.3.0"

@@ -1,4 +1,4 @@
-const INPUT: &str = include_str!("input.txt");
+const INPUT: &str = include_str!("day_04.txt");
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
 struct Range {
@@ -59,7 +59,7 @@ fn count_overlaps(pairs: Vec<(Range, Range)>) -> usize {
         .count()
 }
 
-fn main() {
+pub fn print_solution() {
     let number_of_double_shifts = count_fully_contained_pairs(parse_input(INPUT));
     println!("Number of double shifts: {number_of_double_shifts}");
 

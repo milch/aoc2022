@@ -1,4 +1,4 @@
-const INPUT: &str = include_str!("input.txt");
+const INPUT: &str = include_str!("day_05.txt");
 
 #[derive(Debug, PartialEq, Clone, Copy)]
 struct Crate {
@@ -104,7 +104,7 @@ fn run_simulation(input: &str, mode: InstructionParseMode) {
     println!("Result with {mode:?}: {result}")
 }
 
-fn main() {
+pub fn print_solution() {
     run_simulation(INPUT, InstructionParseMode::CrateMover9000);
     run_simulation(INPUT, InstructionParseMode::CrateMover9001);
 }
