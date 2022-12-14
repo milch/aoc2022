@@ -8,7 +8,7 @@ fn parse_input(input: &str) -> FSNode {
     let mut lines = input.lines();
 
     lines.next(); // Skip the first line since it is `cd /`
-    while let Some(command) = lines.next() {
+    for command in lines {
         match command {
             s if s.starts_with("$ cd ..") => current = current.parent(),
             s if s.starts_with("$ cd") => {
@@ -21,7 +21,7 @@ fn parse_input(input: &str) -> FSNode {
                 current = current.add_child(FSNode::new(String::from(new_dir_path)));
             }
             s if s.starts_with(char::is_numeric) => {
-                let mut parts = s.split(" ");
+                let mut parts = s.split(' ');
                 let size = parts.next().unwrap().parse().unwrap();
                 let name = String::from(parts.next().unwrap());
                 current = current.add_child(FSNode::File(name, size))
@@ -32,15 +32,15 @@ fn parse_input(input: &str) -> FSNode {
     current.finish()
 }
 
-fn nodes_below_size<'a>(start: &'a FSNode, size: usize) -> Vec<&'a FSNode> {
+fn nodes_below_size(start: &FSNode, size: usize) -> Vec<&FSNode> {
     all_nodes(start)
         .iter()
         .filter(|&&node| node.size_below() < size && node.is_directory())
-        .map(|&node| node)
+        .copied()
         .collect()
 }
 
-fn all_nodes<'a>(start: &'a FSNode) -> Vec<&'a FSNode> {
+fn all_nodes(start: &FSNode) -> Vec<&FSNode> {
     let mut result = vec![];
     start.visit_nodes(|node| result.push(node));
     result

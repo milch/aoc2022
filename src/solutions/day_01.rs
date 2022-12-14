@@ -1,6 +1,6 @@
 const INPUT: &str = include_str!("day_01.txt");
 
-fn convert_input_to_array<'a>(input: &str) -> Vec<Vec<i32>> {
+fn convert_input_to_array(input: &str) -> Vec<Vec<i32>> {
     input
         .lines()
         .fold(vec![vec![]], |mut accum: Vec<Vec<i32>>, line: &str| {
@@ -19,7 +19,7 @@ pub fn print_solution() {
     let result = convert_input_to_array(INPUT);
     let mut sums: Vec<i32> = result
         .iter()
-        .map(|carrying| carrying.iter().fold(0, |sum, &i| sum + i))
+        .map(|carrying| carrying.iter().sum())
         .collect();
     let single_max = sums
         .iter()

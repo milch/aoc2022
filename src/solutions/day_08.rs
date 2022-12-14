@@ -20,13 +20,11 @@ fn map_tallest() -> impl FnMut(&u32) -> bool {
             tallest_so_far = tree;
             first = false;
             true
+        } else if tree > tallest_so_far {
+            tallest_so_far = tree;
+            true
         } else {
-            if tree > tallest_so_far {
-                tallest_so_far = tree;
-                true
-            } else {
-                false
-            }
+            false
         }
     }
 }
@@ -54,9 +52,9 @@ fn transpose<T: Copy>(row_wise: &Vec<Vec<T>>) -> Vec<Vec<T>> {
     let mut result: Vec<Vec<T>> = (0..row_length)
         .map(|_| vec![row_wise[0][0]; col_length])
         .collect();
-    for col in 0..col_length {
-        for row in 0..row_length {
-            result[row][col] = row_wise[col][row];
+    for (col, column) in row_wise.iter().enumerate() {
+        for (row, item) in column.iter().enumerate() {
+            result[row][col] = *item
         }
     }
     result
@@ -118,21 +116,17 @@ where
 }
 
 fn compute_visibility(trees: Vec<Vec<u32>>) -> Vec<Vec<bool>> {
-    return compute_directionally(trees, map_tallest, |w, x, y, z| w || x || y || z);
+    compute_directionally(trees, map_tallest, |w, x, y, z| w || x || y || z)
 }
 
 fn compute_scenic_score(trees: Vec<Vec<u32>>) -> Vec<Vec<u32>> {
-    return compute_directionally(trees, map_visible_trees, |w, x, y, z| w * x * y * z);
+    compute_directionally(trees, map_visible_trees, |w, x, y, z| w * x * y * z)
 }
 
 fn count_visible(trees: Vec<Vec<bool>>) -> usize {
     trees
         .iter()
-        .map(|line| {
-            line.iter()
-                .map(|&tree| if tree { 1 } else { 0 })
-                .sum::<usize>()
-        })
+        .map(|line| line.iter().map(|&tree| usize::from(tree)).sum::<usize>())
         .sum()
 }
 
@@ -149,7 +143,7 @@ pub fn print_solution() {
     let visible_trees = compute_visibility(trees.clone());
     let visible_tree_count = count_visible(visible_trees);
     println!("Number of visible trees: {visible_tree_count}");
-    let scenic_scores = compute_scenic_score(trees.clone());
+    let scenic_scores = compute_scenic_score(trees);
     let highest_score = highest_score(scenic_scores);
     println!("Highest scenic score: {highest_score}");
 }

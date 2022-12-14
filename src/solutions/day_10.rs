@@ -43,7 +43,7 @@ impl<'a> Iterator for CommSimulation<'a> {
 
     fn next(&mut self) -> Option<Self::Item> {
         // Nothing executing currently - fetch new instruction
-        if let None = &self.pending_instruction {
+        if self.pending_instruction.is_none() {
             let Some(next_instruction) = self.instructions.next() else {
                 return None; 
             };
@@ -60,7 +60,7 @@ impl<'a> Iterator for CommSimulation<'a> {
             return None;
         };
 
-        let ret = Some(self.register.clone());
+        let ret = Some(self.register);
 
         // There are cycles remaining before it can be applied
         if *remaining_cycles > 1 {
@@ -103,7 +103,7 @@ impl<'a> Iterator for InstructionIterator<'a> {
         match instruction.trim() {
             "noop" => Some(Instruction::Noop),
             s if s.starts_with("addx") => {
-                let count = s.split(" ").last().unwrap().parse().unwrap();
+                let count = s.split(' ').last().unwrap().parse().unwrap();
                 Some(Instruction::Addx(count))
             }
             _ => unreachable!(),
@@ -142,7 +142,7 @@ pub fn print_solution() {
         for c in line {
             print!("{}", c);
         }
-        print!("\n");
+        println!();
     });
 }
 

@@ -32,8 +32,8 @@ fn parse_input(input: &str) -> Vec<(Range, Range)> {
         .trim()
         .lines()
         .map(|line| {
-            let mut ranges = line.trim().split(",").map(|assignment| {
-                let mut parts = assignment.split("-");
+            let mut ranges = line.trim().split(',').map(|assignment| {
+                let mut parts = assignment.split('-');
                 let start: u32 = parts.next().unwrap().parse().unwrap();
                 let end: u32 = parts.next().unwrap().parse().unwrap();
                 Range::new(start..end)

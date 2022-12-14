@@ -21,16 +21,16 @@ fn all_unique<T: Eq + Hash>(vec: &Vec<T>) -> bool {
 fn index_for_unique_chars(in_str: &str, count: usize) -> usize {
     let mut chars = in_str.chars();
     let mut last_chunk = next_chunk(&mut chars, count - 1);
-    let all_until_unique: Vec<char> = chars
-        .take_while(|next| {
-            last_chunk.push(*next);
-            if last_chunk.len() > count {
-                last_chunk.remove(0);
-            }
-            !all_unique(&last_chunk)
-        })
-        .collect();
-    count + all_until_unique.len()
+    count
+        + chars
+            .take_while(|next| {
+                last_chunk.push(*next);
+                if last_chunk.len() > count {
+                    last_chunk.remove(0);
+                }
+                !all_unique(&last_chunk)
+            })
+            .count()
 }
 
 pub fn print_solution() {

@@ -48,7 +48,7 @@ enum InstructionParseMode {
 type Instructions = Vec<Instruction>;
 fn parse_instructions(input: &str, mode: &InstructionParseMode) -> Instructions {
     let instructions_string = input
-        .split("\n")
+        .split('\n')
         .skip_while(|ch| !ch.is_empty())
         .collect::<Vec<&str>>()
         .join("\n");
@@ -56,7 +56,7 @@ fn parse_instructions(input: &str, mode: &InstructionParseMode) -> Instructions 
         .trim()
         .lines()
         .map(|line| {
-            let mut parts = line.split(" ");
+            let mut parts = line.split(' ');
             parts.next();
             let count = parts.next().unwrap().parse().unwrap();
             parts.next();

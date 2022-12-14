@@ -110,7 +110,7 @@ impl<'a> Iterator for Instructions<'a> {
             return None;
         };
 
-        let mut parts = line.trim().split(" ");
+        let mut parts = line.trim().split(' ');
         let direction = parts.next();
         let count = parts.next().map(|p| p.parse::<u32>().ok());
 

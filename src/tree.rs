@@ -43,7 +43,7 @@ impl FSNode {
 
     pub fn visit_nodes<'a, F>(&'a self, mut callback: F)
     where
-        F: FnMut(&'a FSNode) -> (),
+        F: FnMut(&'a FSNode),
     {
         let mut queue = VecDeque::from([self]);
         while let Some(node) = queue.pop_front() {
@@ -121,7 +121,7 @@ impl FSNodeZipper {
     }
 
     pub fn finish(mut self) -> FSNode {
-        while let Some(_) = self.parent {
+        while self.parent.is_some() {
             self = self.parent();
         }
 

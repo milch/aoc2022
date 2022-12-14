@@ -33,7 +33,7 @@ fn priority_sum(input: &str) -> u32 {
     let compartments = split_compartments(input);
     compartments
         .iter()
-        .map(|part| present_in_both(part))
+        .map(present_in_both)
         .fold(0, |sum, char| sum + char_value(char))
 }
 
@@ -51,7 +51,7 @@ fn split_threes(input: &str) -> Vec<Vec<&str>> {
     result
 }
 
-fn find_common_letter(parts: &Vec<&str>) -> char {
+fn find_common_letter(parts: &[&str]) -> char {
     let sets: Vec<HashSet<char>> = parts
         .iter()
         .map(|str| HashSet::from_iter(str.chars()))
@@ -61,7 +61,7 @@ fn find_common_letter(parts: &Vec<&str>) -> char {
         acc.intersection(hs).cloned().collect()
     });
 
-    intersection.iter().last().unwrap().clone()
+    *intersection.iter().last().unwrap()
 }
 
 pub fn print_solution() {
@@ -145,7 +145,7 @@ CrZsJsPPZsGzwwsLwLmpwMDw";
     #[test]
     fn test_find_common_letter() {
         assert_eq!(
-            find_common_letter(&vec![
+            find_common_letter(&[
                 "vJrwpWtwJgWrhcsFMMfFFhFp",
                 "jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL",
                 "PmmdzqPrVvPwwTWBwg"
@@ -153,7 +153,7 @@ CrZsJsPPZsGzwwsLwLmpwMDw";
             'r'
         );
         assert_eq!(
-            find_common_letter(&vec![
+            find_common_letter(&[
                 "wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn",
                 "ttgJtRGJQctTZtZT",
                 "CrZsJsPPZsGzwwsLwLmpwMDw"
